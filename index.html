@@ -59,11 +59,18 @@
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         @keyframes ringSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes counterSpin { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-        
+        @keyframes floatHeart {
+            0% { transform: translateY(110vh) scale(0); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
         /* --- Main Card --- */
         .pro-card {
             background: var(--glass-light);
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 45px 25px;
             border-radius: 40px;
@@ -71,6 +78,7 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
             width: 320px;
             z-index: 10;
+            position: relative;
         }
 
         .main-icon {
@@ -105,7 +113,7 @@
             width: 260px;
             opacity: 0;
             visibility: hidden;
-            transition: 0.4s;
+            transition: all 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             z-index: 100;
         }
@@ -120,9 +128,10 @@
             cursor: pointer;
             transition: 0.4s;
             text-transform: uppercase;
+            width: 100%;
         }
 
-        #yesBtn { background: linear-gradient(45deg, var(--primary), var(--secondary)); color: white; }
+        #yesBtn { background: linear-gradient(45deg, var(--primary), var(--secondary)); color: white; box-shadow: 0 10px 25px rgba(255, 77, 109, 0.5); }
         #noBtn { background: rgba(255, 255, 255, 0.9); color: #555; }
 
         /* --- Success Screen --- */
@@ -133,22 +142,24 @@
             background-size: cover;
             display: none;
             flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
             z-index: 1000;
-            padding-top: 30px;
+            padding: 40px 20px;
+            text-align: center;
             overflow-y: auto;
         }
 
         .wreath-frame {
             position: relative;
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
+            margin-bottom: 20px;
+            padding: 8px;
             background: var(--brown);
             border-radius: 50%;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             animation: ringSpin 15s linear infinite;
-            padding: 8px;
-            margin-bottom: 15px;
         }
 
         .photo-inner { 
@@ -170,87 +181,67 @@
             opacity: 1;
         }
 
-        /* --- QUOTE BOX: LARGER --- */
+        /* --- UPDATED: Bigger Quote Box --- */
         .quote-box {
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
-            padding: 35px 30px;
-            border-radius: 45px;
-            width: 92%;
-            max-width: 500px; /* Much wider */
-            min-height: 320px; /* Taller */
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 30px 25px; /* Increased padding */
+            border-radius: 40px;
+            width: 95%; /* Increased width percentage */
+            max-width: 450px; /* Increased max-width */
+            min-height: 250px; /* Increased min-height */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            margin-bottom: 20px;
+            z-index: 5;
         }
 
         .love-note { 
-            color: #222; 
-            font-size: 17px; 
+            color: #333; 
+            font-size: 16px; /* Slightly larger font */
             font-weight: 500; 
             line-height: 1.6; 
-            white-space: pre-line;
+            white-space: pre-line; 
+            min-height: 160px; 
         }
 
-        /* --- POEM FONT: LARGER --- */
         .poem-font { 
             font-family: 'Dancing Script', cursive; 
-            font-size: 26px; /* Increased size */
+            font-size: 22px; /* Slightly larger poem font */
             color: var(--primary); 
             display: block; 
-            margin: 12px 0;
-            line-height: 1.2;
+            margin: 8px 0; 
         }
 
-        /* --- ENVELOPES: STYLED --- */
-        .envelope-container { display: flex; gap: 25px; margin-top: 5px; padding-bottom: 30px; }
-        
-        .envelope { 
-            width: 75px; 
-            height: 55px; 
-            background: linear-gradient(135deg, #fff, #fdeff2);
-            border-radius: 12px; 
-            cursor: pointer; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            font-family: 'Dancing Script', cursive;
-            font-size: 28px;
-            color: var(--primary);
-            border: 1px solid rgba(255, 77, 109, 0.2);
-            text-shadow: 0 0 5px rgba(255, 77, 109, 0.2);
-        }
-        
-        .envelope:hover { 
-            transform: translateY(-8px) scale(1.1); 
-            box-shadow: 0 12px 25px rgba(255, 77, 109, 0.3);
-            background: white;
-        }
+        .envelope-container { display: flex; gap: 20px; margin-top: 25px; padding-bottom: 40px; z-index: 10; }
+        .envelope { width: 65px; height: 50px; background: #fff; border-radius: 8px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.3s; display: flex; justify-content: center; align-items: center; font-size: 26px; }
+        .envelope:hover { transform: translateY(-5px) scale(1.1); }
 
-        #modalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; z-index: 1999; }
+        /* --- Memory Modal --- */
+        #modalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 1999; }
         #memoryModal {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
             background: white;
-            padding: 40px 30px;
-            border-radius: 30px;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             z-index: 2000;
-            width: 320px;
+            width: 300px;
             text-align: center;
             transition: 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
         }
         #memoryModal.active { transform: translate(-50%, -50%) scale(1); }
 
-        .petal { position: fixed; top: -10px; pointer-events: none; animation: fall linear forwards; }
+        .live-heart { position: absolute; pointer-events: none; z-index: 1; animation: floatHeart var(--d) linear infinite; opacity: 0; }
+        .petal { position: fixed; top: -10px; pointer-events: none; z-index: 1005; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-        .particle { position: fixed; pointer-events: none; animation: pop 1.5s ease-out forwards; }
+        .particle { position: fixed; pointer-events: none; z-index: 1100; animation: pop 1.5s ease-out forwards; }
         @keyframes pop { to { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } }
     </style>
 </head>
@@ -262,9 +253,9 @@
 
     <div id="modalOverlay" onclick="closeMemory()"></div>
     <div id="memoryModal">
-        <h3 id="memoryTitle" style="font-family:'Dancing Script'; color:var(--primary); font-size: 30px;"></h3>
-        <p id="memoryText" style="color:#444; font-size:16px; margin-top:15px; line-height:1.5;"></p>
-        <button onclick="closeMemory()" style="margin-top:25px; padding:12px 25px; font-size:14px; background:var(--primary); color:white; width:auto; border-radius:20px; border:none; cursor:pointer;">Close ❤️</button>
+        <h3 id="memoryTitle" style="font-family:'Dancing Script'; color:var(--primary); font-size: 26px;"></h3>
+        <p id="memoryText" style="color:#555; font-size:15px; margin-top:12px;"></p>
+        <button onclick="closeMemory()" style="margin-top:20px; padding:10px; font-size:12px; background:var(--primary); color:white; width:auto; border-radius:15px;">Close ❤️</button>
     </div>
 
     <div class="pro-card shimmer-container">
@@ -284,13 +275,13 @@
             </div>
         </div>
         <div class="quote-box shimmer-container">
-            <h2 style="font-family:'Dancing Script'; color:var(--accent); font-size: 32px; margin-bottom: 15px;">"You are my favorite person."</h2>
+            <h2 style="font-family:'Dancing Script'; color:var(--accent); font-size: 28px; margin-bottom: 10px;">"You are my favorite person."</h2>
             <p id="typewriter" class="love-note"></p>
         </div>
         <div class="envelope-container">
-            <div class="envelope" onclick="openMemory(0)">Love</div>
-            <div class="envelope" onclick="openMemory(1)">Soul</div>
-            <div class="envelope" onclick="openMemory(2)">Mine</div>
+            <div class="envelope" onclick="openMemory(0)">📩</div>
+            <div class="envelope" onclick="openMemory(1)">📩</div>
+            <div class="envelope" onclick="openMemory(2)">📩</div>
         </div>
     </div>
 
@@ -345,7 +336,7 @@
                 document.getElementById('success').style.display = 'flex';
                 startPetalRain();
                 startPhotoRotation();
-                const msg = `Madhura!!!\n<span class="poem-font">In your smile, I have found my light,\nIn your arms, the world feels right.\nA love so deep, a bond so true,\nMy heart begins and ends with you.</span>\nYou are my everything. ❤️`;
+                const msg = `Madhura!!!\n<span class="poem-font">In your smile, I have found my light,\nIn your arms, the world feels right.\nA love so deep, a bond so true,\nMy heart begins and ends with you.</span>\n\nYou are my everything. ❤️`;
                 typeWriter("typewriter", msg, 40);
             }, 600);
         }
@@ -394,6 +385,16 @@
             }, 450);
         }
 
+        setInterval(() => {
+            const h = document.createElement('div');
+            h.className = 'live-heart';
+            h.innerHTML = '❤️';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.setProperty('--d', (Math.random() * 3 + 5) + 's');
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 8000);
+        }, 600);
+
         let pleaIndex = 0;
         function onPlead() {
             const tip = document.getElementById('errorTip');
@@ -407,4 +408,3 @@
     </script>
 </body>
 </html>
-
